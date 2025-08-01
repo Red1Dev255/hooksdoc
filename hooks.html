@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation des Hooks React</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; background: #f9f9f9; }
+    h1 { text-align: center; }
+    section { margin-bottom: 30px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    pre { background: #eee; padding: 10px; overflow-x: auto; }
+    code { font-family: monospace; }
+  </style>
+</head>
+<body>
+
+  <h1>Documentation des Hooks React</h1>
+
+  <section id="useState">
+    <h2>useState</h2>
+    <p>Permet de créer un état local dans un composant fonctionnel.</p>
+    <pre><code>
+const [count, setCount] = useState(0);
+
+return &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Clique: {count}&lt;/button&gt;;
+    </code></pre>
+  </section>
+
+  <section id="useReducer">
+    <h2>useReducer</h2>
+    <p>Alternative à useState pour des états complexes ou multiples.</p>
+    <pre><code>
+const reducer = (state, action) =&gt; {
+  switch (action.type) {
+    case 'increment': return { count: state.count + 1 };
+    default: return state;
+  }
+};
+
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+return &lt;button onClick={() =&gt; dispatch({ type: 'increment' })}&gt;{state.count}&lt;/button&gt;;
+    </code></pre>
+  </section>
+
+  <section id="useEffect">
+    <h2>useEffect</h2>
+    <p>Effets de bord : requêtes, timers, écouteurs d'événements, etc.</p>
+    <h4>Basé sur le rendu</h4>
+    <pre><code>
+useEffect(() =&gt; {
+  console.log('Composant monté ou mis à jour');
+}, [count]);</code></pre>
+
+    <h4>Basé sur un événement</h4>
+    <pre><code>
+useEffect(() =&gt; {
+  const handleClick = () =&gt; alert('clicked');
+  window.addEventListener('click', handleClick);
+
+  return () =&gt; window.removeEventListener('click', handleClick);
+}, []);
+    </code></pre>
+  </section>
+
+  <section id="useLayoutEffect">
+    <h2>useLayoutEffect</h2>
+    <p>S'exécute juste après le DOM est mis à jour mais avant le rendu à l'écran.</p>
+    <pre><code>
+useLayoutEffect(() =&gt; {
+  console.log('Avant le paint');
+}, []);
+    </code></pre>
+  </section>
+
+  <section id="useRef">
+    <h2>useRef</h2>
+    <p>Référence mutable qui ne provoque pas de re-render.</p>
+    <pre><code>
+const inputRef = useRef();
+
+const focus = () =&gt; inputRef.current.focus();
+
+return (
+  &lt;&gt;
+    &lt;input ref={inputRef} /&gt;
+    &lt;button onClick={focus}&gt;Focus&lt;/button&gt;
+  &lt;/&gt;
+);
+    </code></pre>
+  </section>
+
+  <section id="useMemo">
+    <h2>useMemo</h2>
+    <p>Optimise les performances en mémorisant une valeur calculée.</p>
+    <pre><code>
+const expensiveValue = useMemo(() =&gt; {
+  return slowFunction(count);
+}, [count]);
+    </code></pre>
+  </section>
+
+  <section id="useCallback">
+    <h2>useCallback</h2>
+    <p>Évite de recréer une fonction à chaque rendu.</p>
+    <pre><code>
+const handleClick = useCallback(() =&gt; {
+  alert('Clicked');
+}, []);
+    </code></pre>
+  </section>
+
+  <section id="useContext">
+    <h2>useContext</h2>
+    <p>Permet d'accéder à un contexte React.</p>
+    <pre><code>
+const value = useContext(MyContext);
+
+return &lt;p&gt;{value}&lt;/p&gt;;
+    </code></pre>
+  </section>
+
+  <section id="useTransition">
+    <h2>useTransition</h2>
+    <p>Permet de marquer des mises à jour comme non urgentes.</p>
+    <pre><code>
+const [isPending, startTransition] = useTransition();
+
+startTransition(() =&gt; {
+  setValue(newValue);
+});
+    </code></pre>
+  </section>
+
+  <section id="useDeferredValue">
+    <h2>useDeferredValue</h2>
+    <p>Diffère une valeur pour éviter des re-renders trop fréquents.</p>
+    <pre><code>
+const deferredValue = useDeferredValue(searchInput);
+    </code></pre>
+  </section>
+
+  <section id="useDebugValue">
+    <h2>useDebugValue</h2>
+    <p>Affiche une étiquette personnalisée dans les outils de débogage React DevTools.</p>
+    <pre><code>
+useDebugValue(user, user =&gt; user?.name || 'Anonyme');
+    </code></pre>
+  </section>
+
+  <section id="useId">
+    <h2>useId</h2>
+    <p>Génère un ID unique, souvent utilisé pour l'accessibilité.</p>
+    <pre><code>
+const id = useId();
+
+return (
+  &lt;&gt;
+    &lt;label htmlFor={id}&gt;Nom:&lt;/label&gt;
+    &lt;input id={id} /&gt;
+  &lt;/&gt;
+);
+    </code></pre>
+  </section>
+
+</body>
+</html>
+
